@@ -1,13 +1,19 @@
 {
-  "name": "functions",
+  "name": "sls-firebase-nodejs",
   "description": "Cloud Functions for Firebase",
+  "main": "index.js",
+  "author": "kiina.ai",
+  "license": "MIT",
+  "private": true,
   "scripts": {
     "lint": "eslint .",
     "serve": "firebase serve --only functions",
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "test": "jest specs --coverage",
+    "tdd": "jest specs --coverage --watch"
   },
   "dependencies": {
     "firebase-admin": "~7.0.0",
@@ -15,7 +21,14 @@
   },
   "devDependencies": {
     "eslint": "^5.12.0",
-    "eslint-plugin-promise": "^4.0.1"
+    "eslint-plugin-promise": "^4.0.1",
+    "jest": "^23.6.0"
   },
-  "private": true
+  "engines": {
+    "node": "8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/kiina.ai/boilerplates/sls-firebase-nodejs.git"
+  }
 }
