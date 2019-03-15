@@ -1,6 +1,7 @@
 {
-  "name": "sls-firebase-nodejs",
-  "description": "Cloud Functions for Firebase",
+  "name": "sls-zendesk-handler",
+  "description": "Firebase functions to handle Zendesk integration tasks",
+  "version": "0.1.0",
   "main": "index.js",
   "author": "kiina.ai",
   "license": "MIT",
@@ -29,6 +30,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/kiina.ai/boilerplates/sls-firebase-nodejs.git"
+    "url": "https://gitlab.com/kiina.ai/platform/sls-endesk-handler.git"
   }
 }
