@@ -1,13 +1,14 @@
 'use strict'
 
-const { zendeskWebhook } = require('../../');
+const { searchChanges } = require('../../');
+const zendeskWebhook = require('../../zendesk-webhook/zendesk-webhook');
 
 describe('Zendesk Webhook', () => {
     describe('Given an update request is fired', () => {
-        it('should do something', () => {
-            const spy = jest.spyOn(zendeskWebhook, 'doSomeThing');
-            zendeskWebhook.update({data:{ attributes: "testing pubsub ..."}});
-            expect(spy).toBeCalledWith("testing pubsub ...");
+        it('should get the zendesk credentials', async () => {
+            const spy = jest.spyOn(zendeskWebhook, 'getCredentials');
+            await searchChanges({data:{ attributes: "testing pubsub ..."}});
+            expect(spy).toBeCalled();
         });
     });
 });
