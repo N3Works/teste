@@ -3,7 +3,7 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
-const { getTrigger } = require('./utils');
+const { getTrigger, getFailTopic, publishEvent } = require('./utils');
 
 if (!process.env.FIREBASE_CONFIG) {
     admin.initializeApp({
@@ -14,5 +14,10 @@ if (!process.env.FIREBASE_CONFIG) {
 
 const zenndeskWebhook = require('./search/search');
 exports.search = functions.pubsub.topic(getTrigger('zendesk-search')).onPublish(async event => {
-    return await zenndeskWebhook.handler(event.json, admin.database());
+    try {
+        return await zenndeskWebhook.handler(event.json, admin.database());
+    } catch (error) {
+        console.error(error);
+        publishEvent(error, getFailTopic('zendesk-search'));
+    }
 });
