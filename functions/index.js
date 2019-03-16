@@ -13,7 +13,7 @@ if (!process.env.FIREBASE_CONFIG) {
 } else admin.initializeApp();
 
 const zenndeskWebhook = require('./search/search');
-exports.search = functions.pubsub.topic(getTrigger('zendesk-search')).onPublish(async event => {
+exports.zendeskSearch = functions.pubsub.topic(getTrigger('zendesk-search')).onPublish(async event => {
     try {
         return await zenndeskWebhook.handler(event.json, admin.database());
     } catch (error) {
