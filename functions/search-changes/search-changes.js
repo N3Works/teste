@@ -1,7 +1,8 @@
 'use strict'
 
 const axios = require('axios');
-const ZendeskAPI = require('@kiina/zendesk-api');
+
+const { publishEvent, getFailTopic, getSuccessTopic } = require('../utils');
 
 /**
  * @name getCredentials
@@ -51,5 +52,7 @@ exports.search = async (config) => {
 exports.handler = async (data, database) => {
     const config = await this.getCredentials(database);
     const result = await this.search(config.crm);
-    return null;
+    result.forEach(async res => {
+        await this.publishEvent(res, getSuccessTopic('zendesk-search-changes'));
+    });
 };

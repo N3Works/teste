@@ -1,0 +1,7 @@
+{
+    "zendesk-search-changes": {
+        "trigger": "zenndesk-search-changes",
+        "success": "zendesk-search-changes-success",
+        "fails": "zendesk-search-changes-fails"
+    }
+}

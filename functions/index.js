@@ -3,6 +3,8 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 
+const { getTrigger } = require('./utils');
+
 if (!process.env.FIREBASE_CONFIG) {
     admin.initializeApp({
         databaseURL: 'https://platform-225512.firebaseio.com/',
@@ -10,7 +12,7 @@ if (!process.env.FIREBASE_CONFIG) {
     });
 } else admin.initializeApp();
 
-const zenndeskWebhook = require('./zendesk-webhook/zendesk-webhook');
-exports.searchChanges = functions.pubsub.topic('zenndesk-search-changes').onPublish(async event => { 
-    return await zenndeskWebhook.handler(event.attributes, admin.database());
+const zenndeskWebhook = require('./search-changes/search-changes');
+exports.searchChanges = functions.pubsub.topic(getTrigger('zendesk-search-changes')).onPublish(async event => {
+    return await zenndeskWebhook.handler(event.json, admin.database());
 });
