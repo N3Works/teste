@@ -12,7 +12,7 @@ if (!process.env.FIREBASE_CONFIG) {
     });
 } else admin.initializeApp();
 
-const zenndeskWebhook = require('./search-changes/search-changes');
-exports.searchChanges = functions.pubsub.topic(getTrigger('zendesk-search-changes')).onPublish(async event => {
+const zenndeskWebhook = require('./search/search');
+exports.search = functions.pubsub.topic(getTrigger('zendesk-search')).onPublish(async event => {
     return await zenndeskWebhook.handler(event.json, admin.database());
 });

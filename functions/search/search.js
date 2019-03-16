@@ -53,6 +53,6 @@ exports.handler = async (data, database) => {
     const config = await this.getCredentials(database);
     const result = await this.search(config.crm);
     result.forEach(async res => {
-        await this.publishEvent(res, getSuccessTopic('zendesk-search-changes'));
+        await this.publishEvent(res, getSuccessTopic('zendesk-search'));
     });
 };
