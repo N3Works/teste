@@ -17,6 +17,8 @@
     "tdd": "jest specs --coverage --watchAll"
   },
   "dependencies": {
+    "@kiina/zendesk-api": "^0.3.1",
+    "axios": "^0.18.0",
     "firebase-admin": "~7.0.0",
     "firebase-functions": "^2.2.0"
   },
