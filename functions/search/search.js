@@ -2,7 +2,7 @@
 
 const axios = require('axios');
 
-const { publishEvent, getFailTopic, getSuccessTopic } = require('../utils');
+const { getSuccessTopic } = require('../utils');
 
 /**
  * @name getCredentials
@@ -46,13 +46,17 @@ exports.search = async (config) => {
  * @name handler
  * @async
  * @description Method used to handle the Zendesk Webhook opperation
- * @param {Object} data
+ * @param {Object} inputData
  * @param {Object} database Firebase Realtime instance
  */
-exports.handler = async (data, database) => {
+exports.handler = async (inputData, database) => {
     const config = await this.getCredentials(database);
     const result = await this.search(config.crm);
     result.forEach(async res => {
-        await this.publishEvent(res, getSuccessTopic('zendesk-search'));
+        const outputData = {
+            config: config,
+            data: res
+        };
+        await this.publishEvent(outputData, getSuccessTopic('zendesk-search'));
     });
 };

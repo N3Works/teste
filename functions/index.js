@@ -18,6 +18,7 @@ exports.zendeskSearch = functions.pubsub.topic(getTrigger('zendesk-search')).onP
         return await zenndeskWebhook.handler(event.json, admin.database());
     } catch (error) {
         console.error(error);
-        publishEvent(error, getFailTopic('zendesk-search'));
+        event.json.error = error;
+        await publishEvent(event.json, getFailTopic('zendesk-search'));
     }
 });
