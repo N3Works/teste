@@ -2,11 +2,17 @@
 
 const _ = require('lodash');
 
-const { zendeskGetTicketComments } = require('../../');
+const utils = require('../../utils');
 const getTicketComments = require('../../get-ticket-comments/get-ticket-comments');
 
 const data = { id: '123' };
-const config = { api: 'api'};
+const config = { crm: { api: 'api'} };
+const comments = [
+    {plain_body: 'comment 1'},
+    {plain_body: 'comment 2'}
+];
+
+jest.mock('../../utils');
 
 describe('Zendesk Webhook', () => {
     describe('Given an update request is fired', () => {
@@ -16,13 +22,13 @@ describe('Zendesk Webhook', () => {
             const error = new Error('No ticket ID provided');
             await expect(getTicketComments.handler(config, mockData, {})).rejects.toEqual(error);
         });
-        // it('should get the zendesk credentials', async () => {
-        //     // const spyGetCredentials = jest.spyOn(handler, 'getCredentials');
-        //     // const spySearch = jest.spyOn(handler, 'search');
-        //     await zendeskGetTicketComments({data:{ json: {message: "testing pubsub ..."}}});
-        //     // expect(spyGetCredentials).toBeCalled();
-        //     // expect(spySearch).toBeCalled();
-        //     expect(0).toBe(1);
-        // });
+        it('should get the zendesk ticket comments', async () => {
+            utils.runZendeskOperation.mockResolvedValue(comments);
+            await expect(getTicketComments.handler(config, data, {})).resolves.toBeUndefined();
+            expect(utils.runZendeskOperation).toBeCalledWith(
+                config.crm,
+                `${config.crm.api}/tickets/${data.id}/comments.json`
+            );
+        });
     });
 });

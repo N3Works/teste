@@ -12,6 +12,14 @@ exports.checkForID = (data) => {
     if (!data.id) throw new Error('No ticket ID provided');
 };
 
+/**
+ * @name getTicketComments
+ * @async
+ * @description Method used to get all comments of a given ticket
+ * @param {Object} config Zendesk configuration object with all its credentials
+ * @param {string} ticketId
+ * @returns {Array<Objetc>} List of all comments for the given ticket
+ */
 exports.getTicketComments = async (config, ticketId) => {
     const uri = `${config.api}/tickets/${ticketId}/comments.json`;
     const result = await runZendeskOperation(config, uri);
@@ -33,7 +41,7 @@ exports.formatOutput = (config, data, comments) => {
  */
 exports.handler = async (config, data, database) => {
     this.checkForID(data);
-    // const comments = await this.getTicketComments(config.crm, data.id);
+    const comments = await this.getTicketComments(config.crm, data.id);
     // await publishEvent(
     //     this.formatOutput(config, data, comments),
     //     getSuccessTopic('zendesk-get-ticket-comments')
