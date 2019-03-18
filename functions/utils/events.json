@@ -3,5 +3,10 @@
         "trigger": "zenndesk-search",
         "success": "zendesk-search-success",
         "fails": "zendesk-search-fails"
+    }, 
+    "zendesk-get-ticket-comments": {
+        "trigger": "zendesk-get-ticket-comments",
+        "success": "zendesk-get-ticket-comments-success",
+        "fails": "zendesk-get-ticket-comments-fails"
     }
 }

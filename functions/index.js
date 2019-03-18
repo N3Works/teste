@@ -12,13 +12,24 @@ if (!process.env.FIREBASE_CONFIG) {
     });
 } else admin.initializeApp();
 
-const zenndeskWebhook = require('./search/search');
+const search = require('./search/search');
 exports.zendeskSearch = functions.pubsub.topic(getTrigger('zendesk-search')).onPublish(async event => {
     try {
-        return await zenndeskWebhook.handler(event.json, admin.database());
+        return await search.handler(event.json, admin.database());
     } catch (error) {
         console.error(error);
         event.json.error = error;
         await publishEvent(event.json, getFailTopic('zendesk-search'));
+    }
+});
+
+const getTicketComments = require('./get-ticket-comments/get-ticket-comments');
+exports.zendeskGetTicketComments = functions.pubsub.topic(getTrigger('zendesk-get-ticket-comments')).onPublish(async event => {
+    try {
+        return await getTicketComments.handler(event.json, admin.database());
+    } catch (error) {
+        console.error(error);
+        event.json.error = error;
+        await publishEvent(event.json, getFailTopic('zendesk-get-ticket-comments'));
     }
 });

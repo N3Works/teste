@@ -2,7 +2,7 @@
 
 const axios = require('axios');
 
-const { getSuccessTopic } = require('../utils');
+const { getSuccessTopic, publishEvent } = require('../utils');
 
 /**
  * @name getCredentials
@@ -57,6 +57,6 @@ exports.handler = async (inputData, database) => {
             config: config,
             data: res
         };
-        await this.publishEvent(outputData, getSuccessTopic('zendesk-search'));
+        await publishEvent(outputData, getSuccessTopic('zendesk-search'));
     });
 };
