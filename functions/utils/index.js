@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 const { PubSub } = require('@google-cloud/pubsub');
 const pubsub = new PubSub();
 
@@ -57,4 +58,30 @@ exports.getFailTopic = (functionName) => {
  */
 exports.publishEvent = async (data, topic) => {
     await pubsub.topic(topic).publishJSON(data);
+};
+
+/**
+ * @name runZendeskOperation
+ * @async
+ * @description Method used to run Zendesk operations through its API
+ * @param {Object} config Zendesk credentials
+ * @param {string} uri Zendesk resource address 
+ * @param {string} method HTTP method (default: GET)
+ * @returns {Object} HTTP response data object
+ */
+exports.runZendeskOperation = async (config, uri, method = 'GET') => {
+    const url = `${config.api}${uri}`;
+    const response = await axios.request({
+        url,
+        method,
+        auth: {
+            username: config.username,
+            password: config.password
+        },
+        headers: {
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${config.accessToken}`
+        }
+    });
+    return response.data
 };

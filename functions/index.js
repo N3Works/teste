@@ -26,7 +26,7 @@ exports.zendeskSearch = functions.pubsub.topic(getTrigger('zendesk-search')).onP
 const getTicketComments = require('./get-ticket-comments/get-ticket-comments');
 exports.zendeskGetTicketComments = functions.pubsub.topic(getTrigger('zendesk-get-ticket-comments')).onPublish(async event => {
     try {
-        return await getTicketComments.handler(event.json, admin.database());
+        return await getTicketComments.handler(event.json.config, event.json.data, admin.database());
     } catch (error) {
         console.error(error);
         event.json.error = error;

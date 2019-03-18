@@ -1,8 +1,6 @@
 'use strict'
 
-const axios = require('axios');
-
-const { getSuccessTopic, publishEvent } = require('../utils');
+const { getSuccessTopic, publishEvent, runZendeskOperation } = require('../utils');
 
 /**
  * @name getCredentials
@@ -26,20 +24,9 @@ exports.getCredentials = async (database) => {
  * @todo It should use the zendesk-api for Kiina projects @see `@kiina/zendesk-api`
  */
 exports.search = async (config) => {
-    const url = `${config.api}/search.json?query=${config.query}`;
-    const response = await axios.request({
-        url,
-        method: 'GET',
-        auth: {
-            username: config.username,
-            password: config.password
-        },
-        headers: {
-            'Content-type': 'application/json',
-            'Authorization': `Bearer ${config.accessToken}`
-        }
-    });
-    return response.data.results;
+    const uri = `/search.json?query=${config.query}`;
+    const response = await runZendeskOperation(config, uri);
+    return response.results;
 };
 
 /**
