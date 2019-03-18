@@ -1,6 +1,6 @@
 'use strict'
 
-const { runZendeskOperation } = require('../utils');
+const { runZendeskOperation, publishEvent, getSuccessTopic } = require('../utils');
 
 /**
  * @name checkForID
@@ -26,6 +26,14 @@ exports.getTicketComments = async (config, ticketId) => {
     return result.comments;
 };
 
+/**
+ * @name formatOutput
+ * @description Method used to format the output of the function
+ * @param {Object} config Object that represents the project credentials and configurations
+ * @param {Object} data Object given to the current function as input
+ * @param {Array<Objects>} comments List of comments for the given ticket
+ * @returns {Object} Output object composed by the config parameter and a data parameter
+ */
 exports.formatOutput = (config, data, comments) => {
     data.inputText = comments[0].plain_body;
     data.comments = comments;
@@ -42,8 +50,8 @@ exports.formatOutput = (config, data, comments) => {
 exports.handler = async (config, data, database) => {
     this.checkForID(data);
     const comments = await this.getTicketComments(config.crm, data.id);
-    // await publishEvent(
-    //     this.formatOutput(config, data, comments),
-    //     getSuccessTopic('zendesk-get-ticket-comments')
-    // );
+    await publishEvent(
+        this.formatOutput(config, data, comments),
+        getSuccessTopic('zendesk-get-ticket-comments')
+    );
 };

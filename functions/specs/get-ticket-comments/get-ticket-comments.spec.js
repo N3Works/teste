@@ -7,15 +7,18 @@ const getTicketComments = require('../../get-ticket-comments/get-ticket-comments
 
 const data = { id: '123' };
 const config = { crm: { api: 'api'} };
-const comments = [
+const result = { comments: [
     {plain_body: 'comment 1'},
     {plain_body: 'comment 2'}
-];
+]};
 
 jest.mock('../../utils');
 
 describe('Zendesk Webhook', () => {
     describe('Given an update request is fired', () => {
+        afterEach(() => {
+            jest.resetAllMocks();
+        });
         it('it should throw an erroe if no id is provided', async () => {
             const mockData = _.cloneDeep(data);
             delete mockData.id;
@@ -23,11 +26,18 @@ describe('Zendesk Webhook', () => {
             await expect(getTicketComments.handler(config, mockData, {})).rejects.toEqual(error);
         });
         it('should get the zendesk ticket comments', async () => {
-            utils.runZendeskOperation.mockResolvedValue(comments);
+            utils.runZendeskOperation.mockResolvedValue(result);
+            utils.publishEvent.mockResolvedValue({});
+
+            const spyFormatOutput = jest.spyOn(getTicketComments, 'formatOutput');
+
             await expect(getTicketComments.handler(config, data, {})).resolves.toBeUndefined();
             expect(utils.runZendeskOperation).toBeCalledWith(
                 config.crm,
                 `${config.crm.api}/tickets/${data.id}/comments.json`
+            );
+            expect(spyFormatOutput).toBeCalledWith(
+                config, data, result.comments
             );
         });
     });
