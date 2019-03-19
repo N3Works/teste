@@ -1,6 +1,6 @@
 {
     "zendesk-search": {
-        "trigger": "zenndesk-search",
+        "trigger": "zendesk-search",
         "success": "zendesk-search-success",
         "fails": "zendesk-search-fails"
     }, 

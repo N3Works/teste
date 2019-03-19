@@ -21,7 +21,7 @@ if (!process.env.FIREBASE_CONFIG) {
  * @param {string} setup.trigger String that holds the function trigger name
  */
 const registryFunction = ({opperator, functionName, trigger}) => {
-    exports[functionName] = functions.pubsub.topic(getTrigger(trigger)).onPublish(async event => {
+    exports[functionName] = functions.pubsub.topic(getTrigger(trigger)).onPublish(async (event) => {
         try {
             return await opperator.handler({
                 config: event.json.config,

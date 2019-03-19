@@ -40,7 +40,7 @@ describe('Zendesk Webhook', () => {
             expect(spyFormatUpdate).toBeCalledWith(data);
             expect(utils.runZendeskOperation).toBeCalledWith(
                 config.crm,
-                `${config.crm.api}/tickets/${data.id}.json`,
+                `/tickets/${data.id}.json`,
                 update,
                 'PUT'
             );
