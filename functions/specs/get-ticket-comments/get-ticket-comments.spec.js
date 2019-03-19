@@ -23,7 +23,9 @@ describe('Zendesk Webhook', () => {
             const mockData = _.cloneDeep(data);
             delete mockData.id;
             const error = new Error('No ticket ID provided');
-            await expect(getTicketComments.handler(config, mockData, {})).rejects.toEqual(error);
+            await expect(getTicketComments.handler({
+                config, data: mockData, database: {}
+            })).rejects.toEqual(error);
         });
         it('should get the zendesk ticket comments', async () => {
             utils.runZendeskOperation.mockResolvedValue(result);
@@ -31,7 +33,8 @@ describe('Zendesk Webhook', () => {
 
             const spyFormatOutput = jest.spyOn(getTicketComments, 'formatOutput');
 
-            await expect(getTicketComments.handler(config, data, {})).resolves.toBeUndefined();
+            await expect(getTicketComments.handler({config, data, database: {}}))
+                .resolves.toBeUndefined();
             expect(utils.runZendeskOperation).toBeCalledWith(
                 config.crm,
                 `${config.crm.api}/tickets/${data.id}/comments.json`

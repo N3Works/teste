@@ -33,10 +33,12 @@ exports.search = async (config) => {
  * @name handler
  * @async
  * @description Method used to handle the Zendesk Webhook opperation
- * @param {Object} inputData
- * @param {Object} database Firebase Realtime instance
+ * @param {Object} event
+ * @param {Object} event.data
+ * @param {Object} event.config
+ * @param {Object} event.database Firebase Realtime instance
  */
-exports.handler = async (inputData, database) => {
+exports.handler = async ({ data, database }) => {
     const config = await this.getCredentials(database);
     const result = await this.search(config.crm);
     result.forEach(async res => {

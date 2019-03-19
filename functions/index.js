@@ -15,7 +15,10 @@ if (!process.env.FIREBASE_CONFIG) {
 const search = require('./search/search');
 exports.zendeskSearch = functions.pubsub.topic(getTrigger('zendesk-search')).onPublish(async event => {
     try {
-        return await search.handler(event.json, admin.database());
+        return await search.handler({
+            data: event.json,
+            database: admin.database()
+        });
     } catch (error) {
         console.error(error);
         event.json.error = error;
@@ -26,7 +29,11 @@ exports.zendeskSearch = functions.pubsub.topic(getTrigger('zendesk-search')).onP
 const getTicketComments = require('./get-ticket-comments/get-ticket-comments');
 exports.zendeskGetTicketComments = functions.pubsub.topic(getTrigger('zendesk-get-ticket-comments')).onPublish(async event => {
     try {
-        return await getTicketComments.handler(event.json.config, event.json.data, admin.database());
+        return await getTicketComments.handler({
+            config: event.json.config,
+            data: event.json.data,
+            databese: admin.database()
+        });
     } catch (error) {
         console.error(error);
         event.json.error = error;
