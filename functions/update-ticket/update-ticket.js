@@ -13,6 +13,20 @@ exports.checkForID = (data) => {
 };
 
 /**
+ * @name formatUpdate
+ * @description Method used to build the ticket update object to be sent to Zendesk
+ * @param {Object} data Object data given as entry parameter of the function
+ */
+exports.formatUpdate = (data) => {
+    return {
+        comment: {
+            body: data.outputText
+        },
+        status: data.status ? data.status : 'solved'
+    };
+};
+
+/**
  * @name handler
  * @async
  * @description Method used to handle the Zendesk Webhook opperation
@@ -23,4 +37,5 @@ exports.checkForID = (data) => {
  */
 exports.handler = async ({ config, data, database }) => {
     this.checkForID(data);
+    this.formatUpdate(data);
 };

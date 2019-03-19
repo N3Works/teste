@@ -3,7 +3,7 @@
 const _ = require('lodash');
 
 const utils = require('../../utils');
-const { handler } = require('../../update-ticket/update-ticket');
+const updateTicket = require('../../update-ticket/update-ticket');
 
 const data = { id: '123', outputText: 'bye bye' };
 const config = { crm: { api: 'api'} };
@@ -19,9 +19,19 @@ describe('Zendesk Webhook', () => {
             const mockData = _.cloneDeep(data);
             delete mockData.id;
             const error = new Error('No ticket ID provided');
-            await expect(handler({
+            await expect(updateTicket.handler({
                 config, data: mockData, database: {}
             })).rejects.toEqual(error);
+        });
+        it('should get the zendesk ticket comments', async () => {
+            utils.runZendeskOperation.mockResolvedValue({});
+            utils.publishEvent.mockResolvedValue({});
+
+            const spyFormatUpdate = jest.spyOn(updateTicket, 'formatUpdate');
+
+            await expect(updateTicket.handler({config, data, database: {}}))
+                .resolves.toBeUndefined();
+            expect(spyFormatUpdate).toBeCalledWith(data);
         });
     });
 });
