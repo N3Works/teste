@@ -34,7 +34,7 @@ exports.formatUpdate = (data) => {
  * @param {string} ticketId
  */
 exports.sendUpdate = async (crm, ticketId, update) => {
-    const uri = `${crm.api}/tickets/${ticketId}.json`;
+    const uri = `/tickets/${ticketId}.json`;
     await runZendeskOperation(crm, uri, update, 'PUT');
 };
 

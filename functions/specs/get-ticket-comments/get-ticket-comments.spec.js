@@ -37,7 +37,7 @@ describe('Zendesk Webhook', () => {
                 .resolves.toBeUndefined();
             expect(utils.runZendeskOperation).toBeCalledWith(
                 config.crm,
-                `${config.crm.api}/tickets/${data.id}/comments.json`
+                `/tickets/${data.id}/comments.json`
             );
             expect(spyFormatOutput).toBeCalledWith(
                 config, data, result.comments
