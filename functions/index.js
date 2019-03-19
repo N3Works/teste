@@ -23,10 +23,11 @@ const triggerToListnerName = (trigger) => {
  * @param {string} trigger
  */
 const registryListener = (trigger) => {
-    exports[triggerToListnerName(trigger)] = functions.pubsub.topic(trigger).onPublish(event => {
+    exports[triggerToListnerName(trigger)] = functions.pubsub.topic(trigger).onPublish(async event => {
         const config = event.json.config;
         const next = config.pipeline[trigger];
-        if(next) pubsub.topic(next).publishJSON(event.json);
+        if(next) await pubsub.topic(next).publishJSON(event.json);
+        else Promise.resolve();
     });
 };
 
