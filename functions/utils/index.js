@@ -69,11 +69,12 @@ exports.publishEvent = async (data, topic) => {
  * @param {string} method HTTP method (default: GET)
  * @returns {Object} HTTP response data object
  */
-exports.runZendeskOperation = async (config, uri, method = 'GET') => {
+exports.runZendeskOperation = async (config, uri, data, method = 'GET') => {
     const url = `${config.api}${uri}`;
     const response = await axios.request({
         url,
         method,
+        data,
         auth: {
             username: config.username,
             password: config.password

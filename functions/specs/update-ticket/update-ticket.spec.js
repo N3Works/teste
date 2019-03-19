@@ -7,6 +7,12 @@ const updateTicket = require('../../update-ticket/update-ticket');
 
 const data = { id: '123', outputText: 'bye bye' };
 const config = { crm: { api: 'api'} };
+const update = {
+    comment: {
+        body: data.outputText
+    },
+    status: 'solved'
+};
 
 jest.mock('../../utils');
 
@@ -32,6 +38,12 @@ describe('Zendesk Webhook', () => {
             await expect(updateTicket.handler({config, data, database: {}}))
                 .resolves.toBeUndefined();
             expect(spyFormatUpdate).toBeCalledWith(data);
+            expect(utils.runZendeskOperation).toBeCalledWith(
+                config.crm,
+                `${config.crm.api}/tickets/${data.id}.json`,
+                update,
+                'PUT'
+            );
         });
     });
 });

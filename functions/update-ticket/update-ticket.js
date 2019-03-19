@@ -27,6 +27,18 @@ exports.formatUpdate = (data) => {
 };
 
 /**
+ * @name sendUpdate
+ * @async
+ * @description Method used to send an update for the given ticket to the Zendesk platform
+ * @param {Object} crm Zendesk configuration object with all its credentials
+ * @param {string} ticketId
+ */
+exports.sendUpdate = async (crm, ticketId, update) => {
+    const uri = `${crm.api}/tickets/${ticketId}.json`;
+    await runZendeskOperation(crm, uri, update, 'PUT');
+};
+
+/**
  * @name handler
  * @async
  * @description Method used to handle the Zendesk Webhook opperation
@@ -37,5 +49,6 @@ exports.formatUpdate = (data) => {
  */
 exports.handler = async ({ config, data, database }) => {
     this.checkForID(data);
-    this.formatUpdate(data);
+    const update = this.formatUpdate(data);
+    await this.sendUpdate(config.crm, data.id, update);
 };
