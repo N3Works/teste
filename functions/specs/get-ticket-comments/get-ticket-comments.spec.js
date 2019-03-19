@@ -42,6 +42,9 @@ describe('Zendesk Webhook', () => {
             expect(spyFormatOutput).toBeCalledWith(
                 config, data, result.comments
             );
+            expect(utils.publishEvent).toBeCalledWith({
+                config, data
+            }, utils.getSuccessTopic("zendesk-get-ticket-comment-success"));
         });
     });
 });

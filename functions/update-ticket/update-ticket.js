@@ -51,4 +51,7 @@ exports.handler = async ({ config, data, database }) => {
     this.checkForID(data);
     const update = this.formatUpdate(data);
     await this.sendUpdate(config.crm, data.id, update);
+    await publishEvent({
+        config, data
+    }, getSuccessTopic("zendesk-update-ticket"));
 };

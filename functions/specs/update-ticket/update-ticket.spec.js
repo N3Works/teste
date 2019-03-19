@@ -44,6 +44,9 @@ describe('Zendesk Webhook', () => {
                 update,
                 'PUT'
             );
+            expect(utils.publishEvent).toBeCalledWith({
+                config, data
+            }, utils.getSuccessTopic("zendesk-update-ticket-success"));
         });
     });
 });

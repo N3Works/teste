@@ -8,5 +8,10 @@
         "trigger": "zendesk-get-ticket-comments",
         "success": "zendesk-get-ticket-comments-success",
         "fails": "zendesk-get-ticket-comments-fails"
+    },
+    "zendesk-update-ticket": {
+        "trigger": "zendesk-update-ticket",
+        "success": "zendesk-update-ticket-success",
+        "fails": "zendesk-update-ticket-fails"
     }
 }
