@@ -19,10 +19,12 @@ exports.checkForID = (data) => {
  */
 exports.formatUpdate = (data) => {
     return {
-        comment: {
-            body: data.outputText
-        },
-        status: data.status ? data.status : 'solved'
+        ticket: {
+            comment: {
+                body: data.outputText
+            },
+            "status": "solved"
+        }
     };
 };
 
