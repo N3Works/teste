@@ -75,13 +75,9 @@ exports.runZendeskOperation = async (config, uri, data, method = 'GET') => {
         url,
         method,
         data,
-        auth: {
-            username: config.username,
-            password: config.password
-        },
         headers: {
             'Content-type': 'application/json',
-            'Authorization': `Bearer ${config.accessToken}`
+            'Authorization': `Basic ${config.accessToken}`
         }
     });
     return response.data
