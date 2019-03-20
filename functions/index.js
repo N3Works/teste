@@ -14,7 +14,7 @@ const triggerToListnerName = (trigger) => {
     let parts = trigger.split('-');
     return parts.reduce((start, p) => {
         return `${start}${p.charAt(0).toUpperCase()}${p.slice(1)}`
-    }, 'listiner');
+    }, 'listener');
 };
 
 /**
