@@ -36,18 +36,23 @@ const registryFunction = ({opperator, functionName, trigger}) => {
     });
 };
 
+const search = require('./search/search');
 registryFunction({
-    opperator: require('./search/search'),
+    opperator: search,
     functionName: 'zendeskSearch',
     trigger: 'zendesk-search'
 });
+
+const getTicketComments = require('./get-ticket-comments/get-ticket-comments');
 registryFunction({
-    opperator: require('./get-ticket-comments/get-ticket-comments'),
+    opperator: getTicketComments,
     functionName: 'zendeskGetTicketComments',
     trigger: 'zendesk-get-ticket-comments'
 });
+
+const updateTicket = require('./update-ticket/update-ticket');
 registryFunction({
-    opperator: require('./update-ticket/update-ticket'),
+    opperator: updateTicket,
     functionName: 'zendeskUpdateTicket',
     trigger: 'zendesk-update-ticket'
 });

@@ -35,6 +35,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/kiina.ai/platform/sls-endesk-handler.git"
+    "url": "https://gitlab.com/kiina.ai/platform/sls-zendesk-handler.git"
   }
 }
