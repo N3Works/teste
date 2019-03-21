@@ -1,4 +1,9 @@
 {
   "functions": {
+    "ignore": [
+      "**/.",
+      "**/node_modules",
+      "**/specs"
+    ]
   }
 }
