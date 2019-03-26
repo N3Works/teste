@@ -18,14 +18,23 @@ exports.checkForID = (data) => {
  * @param {Object} data Object data given as entry parameter of the function
  */
 exports.formatUpdate = (data) => {
-    return {
-        ticket: {
-            comment: {
-                body: data.outputText
-            },
-            "status": "solved"
-        }
-    };
+    if (data.result.action && data.result.action === 'input.unknown') {
+        return {
+            ticket: {
+                tags: ['AI_sem_sucesso']
+            }
+        };
+    } else {
+        return {
+            ticket: {
+                comment: {
+                    body: data.outputText
+                },
+                "status": "solved",
+                tags: ['AI_sucesso']
+            }
+        };
+    }
 };
 
 /**
