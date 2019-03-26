@@ -21,7 +21,7 @@ exports.checkForID = (data) => {
  * @returns {Array<Objetc>} List of all comments for the given ticket
  */
 exports.getTicketComments = async (config, ticketId) => {
-    const uri = `/tickets/${ticketId}/comments.json`;
+    const uri = `/tickets/${ticketId}/comments.json?include=users`;
     const result = await runZendeskOperation(config, uri);
     return result.comments;
 };

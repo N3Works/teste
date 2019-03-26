@@ -44,7 +44,7 @@ exports.handler = async ({ data, database }) => {
     result.forEach(async res => {
         const outputData = {
             config: config,
-            data: res
+            data: Object.assign(data, res)
         };
         await publishEvent(outputData, getSuccessTopic('zendesk-search'));
     });
