@@ -32,5 +32,5 @@ const registryListener = (trigger) => {
 };
 
 /** setup */
-const triggers = ['zendesk-search-success', 'zendesk-get-ticket-comments-success', 'df-process-text-success'];
+const triggers = ['zendesk-search-success', 'zendesk-get-ticket-comments-success', 'df-process-text-success', 'zendesk-update-ticket-success'];
 triggers.forEach(trigger => registryListener(trigger));
