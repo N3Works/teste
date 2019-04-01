@@ -12,16 +12,24 @@ exports.checkForID = (data) => {
     if (!data.id) throw new Error('No ticket ID provided');
 };
 
+exports.formatTagsUpdate = (data) => {
+    let tags = [];
+    if (data.result.action && data.result.action === 'input.unknown')
+        tags.push('AI_sem_sucesso');
+    else tags.push('AI_sucesso');
+    return { tags };
+};
+
 /**
  * @name formatUpdate
  * @description Method used to build the ticket update object to be sent to Zendesk
  * @param {Object} data Object data given as entry parameter of the function
  */
-exports.formatUpdate = (data) => {
+exports.formatUpdate = (data) => {;
     if (data.result.action && data.result.action === 'input.unknown') {
         return {
             ticket: {
-                tags: ['AI_sem_sucesso']
+                status: 'pending'
             }
         };
     } else {
@@ -30,8 +38,7 @@ exports.formatUpdate = (data) => {
                 comment: {
                     body: data.outputText
                 },
-                "status": "solved",
-                tags: ['AI_sucesso']
+                "status": "solved"
             }
         };
     }
@@ -44,8 +51,20 @@ exports.formatUpdate = (data) => {
  * @param {Object} crm Zendesk configuration object with all its credentials
  * @param {string} ticketId
  */
-exports.sendUpdate = async (crm, ticketId, update) => {
+exports.updateTicket = async (crm, ticketId, update) => {
     const uri = `/tickets/${ticketId}.json`;
+    await runZendeskOperation(crm, uri, update, 'PUT');
+};
+
+/**
+ * @name sendUpdate
+ * @async
+ * @description Method used to send an update for the given ticket to the Zendesk platform
+ * @param {Object} crm Zendesk configuration object with all its credentials
+ * @param {string} ticketId
+ */
+exports.addTags = async (crm, ticketId, update) => {
+    const uri = `/tickets/${ticketId}/tags.json`;
     await runZendeskOperation(crm, uri, update, 'PUT');
 };
 
@@ -60,8 +79,15 @@ exports.sendUpdate = async (crm, ticketId, update) => {
  */
 exports.handler = async ({ config, data, database }) => {
     this.checkForID(data);
-    const update = this.formatUpdate(data);
-    await this.sendUpdate(config.crm, data.id, update);
+    
+    let update = this.formatTagsUpdate(data);
+    await this.addTags(config.crm, data.id, update);
+    if (data.tags) data.tags.concat(update.tags);
+    else data.tags = update.tags;
+
+    update = this.formatUpdate(data);
+    await this.updateTicket(config.crm, data.id, update);
+    
     await publishEvent({
         config, data
     }, getSuccessTopic("zendesk-update-ticket"));
