@@ -29,7 +29,7 @@ exports.formatUpdate = (data) => {;
     if (data.result.action && data.result.action === 'input.unknown') {
         return {
             ticket: {
-                status: 'pending'
+                "status": 'pending'
             }
         };
     } else {
@@ -37,8 +37,7 @@ exports.formatUpdate = (data) => {;
             ticket: {
                 comment: {
                     body: data.outputText
-                },
-                "status": "solved"
+                }
             }
         };
     }
@@ -90,5 +89,5 @@ exports.handler = async ({ config, data, database }) => {
     
     await publishEvent({
         config, data
-    }, getSuccessTopic("zendesk-update-ticket"));
+    }, getSuccessTopic('zendesk-update-ticket'));
 };
