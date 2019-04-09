@@ -29,12 +29,6 @@ exports.formatUpdate = (data) => {;
     if (data.result.action && data.result.action === 'input.unknown') {
         return {
             ticket: {
-                "status": 'pending'
-            }
-        };
-    } else {
-        return {
-            ticket: {
                 comment: {
                     body: data.outputText
                 }
@@ -85,7 +79,7 @@ exports.handler = async ({ config, data, database }) => {
     else data.tags = update.tags;
 
     update = this.formatUpdate(data);
-    await this.updateTicket(config.crm, data.id, update);
+    if (update) await this.updateTicket(config.crm, data.id, update);
     
     await publishEvent({
         config, data
