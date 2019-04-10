@@ -26,7 +26,7 @@ exports.formatTagsUpdate = (data) => {
  * @param {Object} data Object data given as entry parameter of the function
  */
 exports.formatUpdate = (data) => {;
-    if (data.result.action && data.result.action === 'input.unknown') {
+    if (data.result.action && data.result.action !== 'input.unknown') {
         return {
             ticket: {
                 comment: {
@@ -73,14 +73,14 @@ exports.addTags = async (crm, ticketId, update) => {
 exports.handler = async ({ config, data, database }) => {
     this.checkForID(data);
     
+    update = this.formatUpdate(data);
+    if (update) await this.updateTicket(config.crm, data.id, update);
+
     let update = this.formatTagsUpdate(data);
     await this.addTags(config.crm, data.id, update);
     if (data.tags) data.tags.concat(update.tags);
     else data.tags = update.tags;
 
-    update = this.formatUpdate(data);
-    if (update) await this.updateTicket(config.crm, data.id, update);
-    
     await publishEvent({
         config, data
     }, getSuccessTopic('zendesk-update-ticket'));
