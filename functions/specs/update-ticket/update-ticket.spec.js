@@ -56,4 +56,18 @@ describe("Zendesk Webhook", () => {
       expect(updateTicket.formatUpdate(mockData)).toEqual(update);
     });
   });
+  describe("Output format operation from tags update", () => {
+    it("should have not update tags if the result action is unknown", () => {
+      let mockData = _.cloneDeep(data);
+      mockData = {
+        ...mockData,
+        result: {
+          action: "input.unknown"
+        }
+      };
+      expect(updateTicket.formatTagsUpdate(mockData)).toEqual({
+        tags: ["AI_sem_sucesso"]
+      });
+    });
+  });
 });
