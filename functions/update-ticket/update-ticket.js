@@ -1,6 +1,10 @@
-'use strict'
+"use strict";
 
-const { runZendeskOperation, publishEvent, getSuccessTopic } = require('../utils');
+const {
+  runZendeskOperation,
+  publishEvent,
+  getSuccessTopic
+} = require("../utils");
 
 /**
  * @name checkForID
@@ -8,16 +12,16 @@ const { runZendeskOperation, publishEvent, getSuccessTopic } = require('../utils
  * @throws No ticket ID provided
  * @param {Object} data Object provided on the request
  */
-exports.checkForID = (data) => {
-    if (!data.id) throw new Error('No ticket ID provided');
+exports.checkForID = data => {
+  if (!data.id) throw new Error("No ticket ID provided");
 };
 
-exports.formatTagsUpdate = (data) => {
-    let tags = [];
-    if (data.result.action && data.result.action === 'input.unknown')
-        tags.push('AI_sem_sucesso');
-    else tags.push('AI_sucesso');
-    return { tags };
+exports.formatTagsUpdate = data => {
+  let tags = [];
+  if (data.result.action && data.result.action === "input.unknown")
+    tags.push("AI_sem_sucesso");
+  else tags.push("AI_sucesso");
+  return { tags };
 };
 
 /**
@@ -25,16 +29,16 @@ exports.formatTagsUpdate = (data) => {
  * @description Method used to build the ticket update object to be sent to Zendesk
  * @param {Object} data Object data given as entry parameter of the function
  */
-exports.formatUpdate = (data) => {;
-    if (data.result.action && data.result.action !== 'input.unknown') {
-        return {
-            ticket: {
-                comment: {
-                    body: data.outputText
-                }
-            }
-        };
-    }
+exports.formatUpdate = data => {
+  if (data.result.action && data.result.action !== "input.unknown") {
+    return {
+      ticket: {
+        comment: {
+          body: data.outputText
+        }
+      }
+    };
+  }
 };
 
 /**
@@ -45,8 +49,8 @@ exports.formatUpdate = (data) => {;
  * @param {string} ticketId
  */
 exports.updateTicket = async (crm, ticketId, update) => {
-    const uri = `/tickets/${ticketId}.json`;
-    await runZendeskOperation(crm, uri, update, 'PUT');
+  const uri = `/tickets/${ticketId}.json`;
+  await runZendeskOperation(crm, uri, update, "PUT");
 };
 
 /**
@@ -57,8 +61,8 @@ exports.updateTicket = async (crm, ticketId, update) => {
  * @param {string} ticketId
  */
 exports.addTags = async (crm, ticketId, update) => {
-    const uri = `/tickets/${ticketId}/tags.json`;
-    await runZendeskOperation(crm, uri, update, 'PUT');
+  const uri = `/tickets/${ticketId}/tags.json`;
+  await runZendeskOperation(crm, uri, update, "PUT");
 };
 
 /**
@@ -71,17 +75,21 @@ exports.addTags = async (crm, ticketId, update) => {
  * @param {Object} event.database Firebase Realtime instance
  */
 exports.handler = async ({ config, data, database }) => {
-    this.checkForID(data);
-    
-    update = this.formatUpdate(data);
-    if (update) await this.updateTicket(config.crm, data.id, update);
+  this.checkForID(data);
 
-    let update = this.formatTagsUpdate(data);
-    await this.addTags(config.crm, data.id, update);
-    if (data.tags) data.tags.concat(update.tags);
-    else data.tags = update.tags;
+  update = this.formatUpdate(data);
+  if (update) await this.updateTicket(config.crm, data.id, update);
 
-    await publishEvent({
-        config, data
-    }, getSuccessTopic('zendesk-update-ticket'));
+  let update = this.formatTagsUpdate(data);
+  await this.addTags(config.crm, data.id, update);
+  if (data.tags) data.tags.concat(update.tags);
+  else data.tags = update.tags;
+
+  await publishEvent(
+    {
+      config,
+      data
+    },
+    getSuccessTopic("zendesk-update-ticket")
+  );
 };

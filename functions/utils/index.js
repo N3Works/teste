@@ -1,9 +1,9 @@
-'use strict'
+"use strict";
 
-const fs = require('fs');
-const path = require('path');
-const axios = require('axios');
-const { PubSub } = require('@google-cloud/pubsub');
+const fs = require("fs");
+const path = require("path");
+const axios = require("axios");
+const { PubSub } = require("@google-cloud/pubsub");
 const pubsub = new PubSub();
 
 /**
@@ -11,12 +11,9 @@ const pubsub = new PubSub();
  * @returns {Object}
  */
 const getEvents = () => {
-    return JSON.parse(
-        fs.readFileSync(
-            path.join(__dirname, 'events.json'),
-            'utf8'
-        )
-    );
+  return JSON.parse(
+    fs.readFileSync(path.join(__dirname, "events.json"), "utf8")
+  );
 };
 
 /**
@@ -25,8 +22,8 @@ const getEvents = () => {
  * @param {string} functionName
  * @returns {string}
  */
-exports.getTrigger = (functionName) => {
-    return getEvents()[functionName].trigger;
+exports.getTrigger = functionName => {
+  return getEvents()[functionName].trigger;
 };
 
 /**
@@ -35,8 +32,8 @@ exports.getTrigger = (functionName) => {
  * @param {string} functionName
  * @returns {string}
  */
-exports.getSuccessTopic = (functionName) => {
-    return getEvents()[functionName].success;
+exports.getSuccessTopic = functionName => {
+  return getEvents()[functionName].success;
 };
 
 /**
@@ -45,8 +42,8 @@ exports.getSuccessTopic = (functionName) => {
  * @param {string} functionName
  * @returns {string}
  */
-exports.getFailTopic = (functionName) => {
-    return getEvents()[functionName].fail;
+exports.getFailTopic = functionName => {
+  return getEvents()[functionName].fail;
 };
 
 /**
@@ -57,7 +54,7 @@ exports.getFailTopic = (functionName) => {
  * @param {string} topic Topic label
  */
 exports.publishEvent = async (data, topic) => {
-    await pubsub.topic(topic).publishJSON(data);
+  await pubsub.topic(topic).publishJSON(data);
 };
 
 /**
@@ -65,20 +62,20 @@ exports.publishEvent = async (data, topic) => {
  * @async
  * @description Method used to run Zendesk operations through its API
  * @param {Object} config Zendesk credentials
- * @param {string} uri Zendesk resource address 
+ * @param {string} uri Zendesk resource address
  * @param {string} method HTTP method (default: GET)
  * @returns {Object} HTTP response data object
  */
-exports.runZendeskOperation = async (config, uri, data, method = 'GET') => {
-    const url = `${config.api}${uri}`;
-    const response = await axios.request({
-        url,
-        method,
-        data,
-        headers: {
-            'Content-type': 'application/json',
-            'Authorization': `Basic ${config.accessToken}`
-        }
-    });
-    return response.data
+exports.runZendeskOperation = async (config, uri, data, method = "GET") => {
+  const url = `${config.api}${uri}`;
+  const response = await axios.request({
+    url,
+    method,
+    data,
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Basic ${config.accessToken}`
+    }
+  });
+  return response.data;
 };
