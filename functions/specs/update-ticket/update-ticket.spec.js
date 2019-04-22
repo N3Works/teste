@@ -70,4 +70,14 @@ describe("Zendesk Webhook", () => {
       });
     });
   });
+  it("should return the format of the tags updated", () => {
+    let mockData = _.cloneDeep(data);
+    mockData = {
+      ...mockData,
+      result: {}
+    };
+    expect(updateTicket.formatTagsUpdate(mockData)).toEqual({
+      tags: ["AI_sucesso"]
+    });
+  });
 });
