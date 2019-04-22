@@ -8,10 +8,11 @@ const updateTicket = require("../../update-ticket/update-ticket");
 const data = { id: "123", outputText: "bye bye" };
 const config = { crm: { api: "api" } };
 const update = {
-  comment: {
-    body: data.outputText
-  },
-  status: "solved"
+  ticket: {
+    comment: {
+      body: data.outputText
+    }
+  }
 };
 
 jest.mock("../../utils");
@@ -44,6 +45,15 @@ describe("Zendesk Webhook", () => {
         }
       };
       expect(updateTicket.formatUpdate(mockData)).toBeUndefined();
+    });
+
+    it("should return the updated ticket format", () => {
+      let mockData = _.cloneDeep(data);
+      mockData = {
+        ...mockData,
+        result: {}
+      };
+      expect(updateTicket.formatUpdate(mockData)).toEqual(update);
     });
   });
 });

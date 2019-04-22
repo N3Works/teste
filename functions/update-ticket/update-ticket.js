@@ -30,7 +30,8 @@ exports.formatTagsUpdate = data => {
  * @param {Object} data Object data given as entry parameter of the function
  */
 exports.formatUpdate = data => {
-  if (data.result.action && data.result.action !== "input.unknown") {
+  if (data.result.action && data.result.action === "input.unknown") return;
+  else {
     return {
       ticket: {
         comment: {
