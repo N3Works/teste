@@ -4,9 +4,17 @@ const _ = require("lodash");
 
 const utils = require("../../utils");
 const updateTicket = require("../../update-ticket/update-ticket");
+const ZendeskApi = require("@kiina/zendesk-api");
 
 const data = { id: "123", outputText: "bye bye" };
-const config = { crm: { api: "api" } };
+const config = {
+  crm: {
+    api: "api",
+    username: "user",
+    password: "1234",
+    subdomain: "teste"
+  }
+};
 const update = {
   ticket: {
     comment: {
@@ -16,12 +24,13 @@ const update = {
 };
 
 jest.mock("../../utils");
+jest.mock("@kiina/zendesk-api");
 
 describe("Zendesk Webhook", () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
   describe("Given an update request is fired", () => {
-    afterEach(() => {
-      jest.resetAllMocks();
-    });
     it("it should throw an erroe if no id is provided", async () => {
       const mockData = _.cloneDeep(data);
       delete mockData.id;
@@ -34,8 +43,18 @@ describe("Zendesk Webhook", () => {
         })
       ).rejects.toEqual(error);
     });
+
+    it("should update ticket", async () => {
+      ZendeskApi.prototype.tickets = {
+        updateTicket: jest.fn().mockResolvedValue()
+      };
+
+      await expect(
+        updateTicket.updateTicket(config.crm, data.id, update)
+      ).resolves.toBeUndefined();
+    });
   });
-  describe("And an output format operation is required", () => {
+  describe("Given an output format operation is required", () => {
     it("should have not update data if the result action is unknown", () => {
       let mockData = _.cloneDeep(data);
       mockData = {
@@ -55,8 +74,7 @@ describe("Zendesk Webhook", () => {
       };
       expect(updateTicket.formatUpdate(mockData)).toEqual(update);
     });
-  });
-  describe("Output format operation from tags update", () => {
+
     it("should have not update tags if the result action is unknown", () => {
       let mockData = _.cloneDeep(data);
       mockData = {
@@ -69,15 +87,15 @@ describe("Zendesk Webhook", () => {
         tags: ["AI_sem_sucesso"]
       });
     });
-  });
-  it("should return the format of the tags updated", () => {
-    let mockData = _.cloneDeep(data);
-    mockData = {
-      ...mockData,
-      result: {}
-    };
-    expect(updateTicket.formatTagsUpdate(mockData)).toEqual({
-      tags: ["AI_sucesso"]
+    it("should return the format of the tags updated", () => {
+      let mockData = _.cloneDeep(data);
+      mockData = {
+        ...mockData,
+        result: {}
+      };
+      expect(updateTicket.formatTagsUpdate(mockData)).toEqual({
+        tags: ["AI_sucesso"]
+      });
     });
   });
 });
