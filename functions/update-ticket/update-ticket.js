@@ -35,10 +35,8 @@ exports.formatUpdate = data => {
   if (data.result.action && data.result.action === "input.unknown") return;
   else {
     return {
-      ticket: {
-        comment: {
-          body: data.outputText
-        }
+      comment: {
+        body: data.outputText
       }
     };
   }
@@ -51,11 +49,11 @@ exports.formatUpdate = data => {
  * @param {Object} crm Zendesk configuration object with all its credentials
  * @param {string} ticketId
  */
-exports.updateTicket = async (config, ticketId, update) => {
+exports.updateTicket = async (config, id, update) => {
   const api = new ZendeskApi(config);
   await api.tickets.updateTicket({
-    ticketId,
-    update
+    id,
+    ...update
   });
 };
 

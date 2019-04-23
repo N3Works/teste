@@ -6,7 +6,11 @@ const utils = require("../../utils");
 const updateTicket = require("../../update-ticket/update-ticket");
 const ZendeskApi = require("@kiina/zendesk-api");
 
-const data = { id: "123", outputText: "bye bye" };
+const data = {
+  id: "123",
+  outputText: "bye bye"
+};
+
 const config = {
   crm: {
     api: "api",
@@ -16,11 +20,13 @@ const config = {
   }
 };
 const update = {
-  ticket: {
-    comment: {
-      body: data.outputText
-    }
+  comment: {
+    body: data.outputText
   }
+};
+
+const updateTags = {
+  tags: ["AI_sem_sucesso"]
 };
 
 jest.mock("../../utils");
@@ -52,6 +58,43 @@ describe("Zendesk Webhook", () => {
       await expect(
         updateTicket.updateTicket(config.crm, data.id, update)
       ).resolves.toBeUndefined();
+    });
+
+    it("should not execute zendesk update ticket method if unknown action is found", async () => {
+      let mockData = _.cloneDeep(data);
+      mockData = {
+        result: {
+          action: "input.unknown"
+        },
+        ...mockData
+      };
+      utils.runZendeskOperation.mockResolvedValue();
+      utils.publishEvent.mockResolvedValue({});
+
+      const spyUpdateTicket = jest.spyOn(updateTicket, "updateTicket");
+      const spyAddTags = jest.spyOn(updateTicket, "addTags");
+
+      await expect(
+        updateTicket.handler({ config, data: mockData, database: {} })
+      ).resolves.toBeUndefined();
+
+      expect(utils.runZendeskOperation).toBeCalledWith(
+        config.crm,
+        `/tickets/${mockData.id}/tags.json`,
+        updateTags,
+        "PUT"
+      );
+
+      expect(spyUpdateTicket).not.toBeCalled();
+      expect(spyAddTags).toBeCalledWith(config.crm, mockData.id, updateTags);
+
+      expect(utils.publishEvent).toBeCalledWith(
+        {
+          config,
+          data: mockData
+        },
+        utils.getSuccessTopic("zendesk-update-ticket")
+      );
     });
   });
   describe("Given an output format operation is required", () => {
