@@ -25,18 +25,15 @@ const update = {
   }
 };
 
-const updateTags = {
-  tags: ["AI_sem_sucesso"]
-};
-
 jest.mock("../../utils");
 jest.mock("@kiina/zendesk-api");
 
 describe("Zendesk Webhook", () => {
-  afterEach(() => {
-    jest.resetAllMocks();
-  });
   describe("Given an update request is fired", () => {
+    afterEach(() => {
+      jest.resetAllMocks();
+      jest.restoreAllMocks();
+    });
     it("it should throw an erroe if no id is provided", async () => {
       const mockData = _.cloneDeep(data);
       delete mockData.id;
@@ -61,6 +58,9 @@ describe("Zendesk Webhook", () => {
     });
 
     it("should not execute zendesk update ticket method if unknown action is found", async () => {
+      const updateTags = {
+        tags: ["AI_sem_sucesso"]
+      };
       let mockData = _.cloneDeep(data);
       mockData = {
         result: {
@@ -96,8 +96,54 @@ describe("Zendesk Webhook", () => {
         utils.getSuccessTopic("zendesk-update-ticket")
       );
     });
+    it("should execute zendesk update ticket method", async () => {
+      const updateTags = {
+        tags: ["AI_sucesso"]
+      };
+      let mockData = _.cloneDeep(data);
+      mockData = {
+        result: {},
+        ...mockData
+      };
+      let mockUpdate = _.cloneDeep(update);
+
+      utils.runZendeskOperation.mockResolvedValue({});
+      utils.publishEvent.mockResolvedValue({});
+
+      const spyUpdateTicket = jest.spyOn(updateTicket, "updateTicket");
+      const spyAddTags = jest.spyOn(updateTicket, "addTags");
+
+      await expect(
+        updateTicket.handler({ config, data: mockData, database: {} })
+      ).resolves.toBeUndefined();
+
+      expect(utils.runZendeskOperation).toBeCalledWith(
+        config.crm,
+        `/tickets/${mockData.id}/tags.json`,
+        updateTags,
+        "PUT"
+      );
+
+      expect(spyUpdateTicket).toBeCalledWith(
+        config.crm,
+        mockData.id,
+        mockUpdate
+      );
+      expect(spyAddTags).toBeCalledWith(config.crm, mockData.id, updateTags);
+
+      expect(utils.publishEvent).toBeCalledWith(
+        {
+          config,
+          data: mockData
+        },
+        utils.getSuccessTopic("zendesk-update-ticket")
+      );
+    });
   });
   describe("Given an output format operation is required", () => {
+    afterEach(() => {
+      jest.resetAllMocks();
+    });
     it("should have not update data if the result action is unknown", () => {
       let mockData = _.cloneDeep(data);
       mockData = {

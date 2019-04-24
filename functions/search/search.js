@@ -1,12 +1,8 @@
 "use strict";
 
-const {
-  getSuccessTopic,
-  publishEvent,
-  runZendeskOperation
-} = require("../utils");
+const { getSuccessTopic, publishEvent } = require("../utils");
 
-const zendeskApi = require("@kiina/zendesk-api");
+const ZendeskApi = require("@kiina/zendesk-api");
 
 /**
  * @name getCredentials
@@ -29,7 +25,7 @@ exports.getCredentials = async database => {
  * @todo It should use the zendesk-api for Kiina projects @see `@kiina/zendesk-api`
  */
 exports.search = async config => {
-  const api = new zendeskApi(config);
+  const api = new ZendeskApi(config);
 
   return await api.search.run({
     query: config.query
