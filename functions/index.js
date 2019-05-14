@@ -24,13 +24,21 @@ const triggerToListnerName = (trigger) => {
  */
 const registryListener = (trigger) => {
     exports[triggerToListnerName(trigger)] = functions.pubsub.topic(trigger).onPublish(async event => {
+        const data = event.json.data;
         const config = event.json.config;
-        const next = config.pipeline[trigger];
+        const next = config.pipeline[data.origin][trigger];
         if(next) await pubsub.topic(next).publishJSON(event.json);
         else Promise.resolve();
     });
 };
 
 /** setup */
-const triggers = ['zendesk-search-success', 'zendesk-get-ticket-comments-success', 'df-process-text-success', 'zendesk-update-ticket-success'];
+const triggers = [
+    'zendesk-search-success', 
+    'zendesk-get-ticket-comments-success', 
+    'zendesk-update-ticket-success',
+    'df-process-text-success', 
+    'messenger-send-message-success',
+    'messenger-extract-messages-success'
+];
 triggers.forEach(trigger => registryListener(trigger));
