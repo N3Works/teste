@@ -1,6 +1,7 @@
 {
-  "name": "sls-firebase-nodejs",
-  "description": "Cloud Functions for Firebase",
+  "name": "sls-orchestrator",
+  "description": "Cloud Functions for Firebase to handle orchestration opperations",
+  "version": "0.1.0",
   "main": "index.js",
   "author": "kiina.ai",
   "license": "MIT",
@@ -16,6 +17,7 @@
     "tdd": "jest specs --coverage --watch"
   },
   "dependencies": {
+    "@google-cloud/pubsub": "^0.28.1",
     "firebase-admin": "~7.0.0",
     "firebase-functions": "^2.2.0"
   },
