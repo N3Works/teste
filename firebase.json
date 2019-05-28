@@ -1,9 +1,11 @@
 {
   "functions": {
+    "source": ".",
     "ignore": [
       "**/.",
       "**/node_modules",
-      "**/specs"
+      "**/specs",
+      "**/coverage"
     ]
   }
 }
