@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "platform-225512"
+    "production": "platform-225512",
+    "staging": "oraculo-zendesk"
   }
 }
