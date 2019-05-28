@@ -1,6 +1,7 @@
 {
-  "name": "sls-firebase-nodejs",
-  "description": "Cloud Functions for Firebase",
+  "name": "sls-df-handler",
+  "description": "Cloud Functions for Firebase to handle DialogFlow opperations",
+  "version": "0.1.0",
   "main": "index.js",
   "author": "kiina.ai",
   "license": "MIT",
@@ -13,22 +14,28 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
     "test": "jest specs --coverage",
-    "tdd": "jest specs --coverage --watch"
+    "tdd": "jest specs --coverage --watchAll"
   },
   "dependencies": {
+    "@google-cloud/pubsub": "^0.28.1",
+    "@kiina/ml-processor": "^1.0.3",
     "firebase-admin": "~7.0.0",
-    "firebase-functions": "^2.2.0"
+    "firebase-functions": "^2.2.0",
+    "fs": "0.0.2",
+    "path": "^0.12.7",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "eslint": "^5.12.0",
     "eslint-plugin-promise": "^4.0.1",
-    "jest": "^23.6.0"
+    "jest": "^24.5.0",
+    "lodash": "^4.17.11"
   },
   "engines": {
     "node": "8"
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/kiina.ai/boilerplates/sls-firebase-nodejs.git"
+    "url": "https://gitlab.com/kiina.ai/platform/sls-df-handler.git"
   }
 }

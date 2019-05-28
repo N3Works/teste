@@ -1,0 +1,10 @@
+{
+    "agent_missing": {
+        "message": "Missing agent id.",
+        "code": 0
+    },
+    "session_missing": {
+        "message": "Missing session id",
+        "code": 0
+    }
+}

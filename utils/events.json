@@ -1,0 +1,7 @@
+{
+    "df-process-text": {
+        "trigger": "df-process-text",
+        "success": "df-process-text-success",
+        "fails": "df-process-text-fails"
+    }
+}
