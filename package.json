@@ -1,7 +1,7 @@
 {
   "name": "sls-orchestrator",
   "description": "Cloud Functions for Firebase to handle orchestration opperations",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "index.js",
   "author": "kiina.ai",
   "license": "MIT",
