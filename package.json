@@ -14,7 +14,8 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
     "test": "jest specs --coverage",
-    "tdd": "jest specs --coverage --watch"
+    "tdd": "jest specs --coverage --watch",
+    "postversion": "git push --follow-tags"
   },
   "dependencies": {
     "@google-cloud/pubsub": "^0.28.1",
