@@ -12,8 +12,9 @@ const messages = utils.getErrorMessages();
  * @param {Object} nlp NLP configuration object
  * @returns {Object} It returns the given nlp object
  */
-const checkAgentId = nlp => {
-  if (nlp.agentId) return nlp;
+const checkAgentId = (nlp, origin) => {
+  const agentId = origin ? nlp[origin].agentId : nlp.agentId;
+  if (agentId) return nlp;
   else utils.throwError(messages.agent_missing);
 };
 
@@ -63,7 +64,7 @@ const parseText = text => {
  * @param {Object} event.config Project configuration and credentials object
  */
 exports.handler = async ({ data, config }) => {
-  checkAgentId(config.nlp);
+  checkAgentId(config.nlp, data.origin);
   data.sessionId = this.checkSessionId(data.sessionId);
   data.result = await detectIntent(config.nlp, data.inputText, data.sessionId, data.origin);
   data.outputText = parseText(data.result.fulfillment.speech);
