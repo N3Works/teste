@@ -56,6 +56,7 @@ const triggers = [
   "serasa-mpme-format-ticket-tags-success",
 
   /** serasa Email */
-  "serasa-email-rules-success"
+  "serasa-email-rules-success",
+  "serasa-email-rules-paidnotupdate-success"
 ];
 triggers.forEach(trigger => registryListener(trigger));
