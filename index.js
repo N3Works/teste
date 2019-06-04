@@ -40,7 +40,6 @@ const registryListener = trigger => {
 
 /** setup */
 const triggers = [
-
   "zendesk-search-success",
   "zendesk-get-ticket-comments-success",
   "zendesk-update-ticket-success",
@@ -57,6 +56,14 @@ const triggers = [
 
   /** serasa Email */
   "serasa-email-rules-success",
-  "serasa-email-rules-paidnotupdate-success"
+  "serasa-email-rules-paidnotupdate-success",
+
+  'webui-incoming-success',
+  'webui-outgoing-success',
+  'zendesk-create-ticket-success',
+  'zendesk-create-user-success',
+  'mpme-handle-df-actions-success',
+  'mpme-handle-df-actions-transfer',
+  'mpme-handle-df-parameters-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
