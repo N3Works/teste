@@ -57,6 +57,7 @@ const triggers = [
   /** serasa Email */
   "serasa-email-rules-success",
   "serasa-email-rules-paidnotupdate-success",
+  "serasa-get-ticket-success",
   "serasa-get-context-success",
 
   'webui-incoming-success',
