@@ -65,6 +65,7 @@ const triggers = [
   'zendesk-create-user-success',
   'mpme-handle-df-actions-success',
   'mpme-handle-df-actions-transfer',
-  'mpme-handle-df-parameters-success'
+  'mpme-handle-df-parameters-success',
+  'mpme-handle-df-parameters-followup'
 ];
 triggers.forEach(trigger => registryListener(trigger));
