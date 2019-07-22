@@ -71,6 +71,10 @@ const triggers = [
   'mpme-handle-df-actions-success',
   'mpme-handle-df-actions-transfer',
   'mpme-handle-df-parameters-success',
-  'mpme-handle-df-parameters-followup'
+  'mpme-handle-df-parameters-followup',
+
+    /** serasa certificado digital */
+    'cd-handle-df-actions-success',
+    'cd-handle-df-parameters-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
