@@ -63,6 +63,8 @@ const triggers = [
   /** serasa Messenger */
   "serasa-messenger-parameters-success",
   "serasa-messenger-actions-success",
+  "serasa-messenger-actions-secondary",
+  "zendesk-create-user-skip",
 
   'webui-incoming-success',
   'webui-outgoing-success',
