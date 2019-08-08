@@ -40,31 +40,31 @@ const registryListener = trigger => {
 
 /** setup */
 const triggers = [
-  "zendesk-search-success",
-  "zendesk-get-ticket-comments-success",
-  "zendesk-update-ticket-success",
-  "zendesk-webhook-success",
-  "df-process-text-success",
-  "messenger-send-message-success",
-  "messenger-extract-messages-success",
-  "webui-read-message-success",
-  "webui-format-outgoing-message-success",
+  'zendesk-search-success',
+  'zendesk-get-ticket-comments-success',
+  'zendesk-update-ticket-success',
+  'zendesk-webhook-success',
+  'df-process-text-success',
+  'messenger-send-message-success',
+  'messenger-extract-messages-success',
+  'webui-read-message-success',
+  'webui-format-outgoing-message-success',
 
   /** serasa MPME */
-  "serasa-mpme-format-ticket-comment-success",
-  "serasa-mpme-format-ticket-tags-success",
+  'serasa-mpme-format-ticket-comment-success',
+  'serasa-mpme-format-ticket-tags-success',
 
   /** serasa Email */
-  "serasa-email-rules-success",
-  "serasa-email-rules-paidnotupdate-success",
-  "serasa-get-ticket-success",
-  "serasa-get-context-success",
+  'serasa-email-rules-success',
+  'serasa-email-rules-paidnotupdate-success',
+  'serasa-get-ticket-success',
+  'serasa-get-context-success',
 
   /** serasa Messenger */
-  "serasa-messenger-parameters-success",
-  "serasa-messenger-actions-success",
-  "serasa-messenger-actions-secondary",
-  "zendesk-create-user-skip",
+  'serasa-messenger-parameters-success',
+  'serasa-messenger-actions-success',
+  'serasa-messenger-actions-secondary',
+  'zendesk-create-user-skip',
 
   'webui-incoming-success',
   'webui-outgoing-success',
@@ -75,8 +75,13 @@ const triggers = [
   'mpme-handle-df-parameters-success',
   'mpme-handle-df-parameters-followup',
 
-    /** serasa certificado digital */
-    'cd-handle-df-actions-success',
-    'cd-handle-df-parameters-success'
+  /** serasa certificado digital */
+  'cd-handle-df-actions-success',
+  'cd-handle-df-parameters-success',
+  /** serasa whatsapp */
+  'movile-wpp-extract-messages-success',
+  'movile-wpp-send-messages-success',
+  'movile-wpp-rules-parameters-success',
+  'movile-wpp-rules-actions-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
