@@ -53,6 +53,12 @@ const triggers = [
   /** serasa MPME */
   'serasa-mpme-format-ticket-comment-success',
   'serasa-mpme-format-ticket-tags-success',
+  'mpme-handle-df-actions-success',
+  'mpme-handle-df-actions-transfer',
+  'mpme-handle-df-parameters-success',
+  'mpme-handle-df-parameters-followup',
+  'webui-incoming-success',
+  'webui-outgoing-success',
 
   /** serasa Email */
   'serasa-email-rules-success',
@@ -63,17 +69,9 @@ const triggers = [
   /** serasa Messenger */
   'serasa-messenger-parameters-success',
   'serasa-messenger-actions-success',
-  'serasa-messenger-actions-secondary',
-  'zendesk-create-user-skip',
-
-  'webui-incoming-success',
-  'webui-outgoing-success',
   'zendesk-create-ticket-success',
   'zendesk-create-user-success',
-  'mpme-handle-df-actions-success',
-  'mpme-handle-df-actions-transfer',
-  'mpme-handle-df-parameters-success',
-  'mpme-handle-df-parameters-followup',
+  'bigquery-save-activity-success',
 
   /** serasa certificado digital */
   'cd-handle-df-actions-success',
