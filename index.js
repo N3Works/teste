@@ -80,6 +80,11 @@ const triggers = [
   'movile-wpp-extract-messages-success',
   'movile-wpp-send-messages-success',
   'movile-wpp-rules-parameters-success',
-  'movile-wpp-rules-actions-success'
+  'movile-wpp-rules-actions-success',
+
+  /** Whatsapp */
+  'whatsapp-send-message-success',
+  'whatsapp-extract-messages-success',
+  'whatsapp-df-parameters-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
