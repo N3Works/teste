@@ -76,6 +76,7 @@ const triggers = [
   /** serasa certificado digital */
   'cd-handle-df-actions-success',
   'cd-handle-df-parameters-success',
+  'cd-handle-df-actions-chargeback',
   /** serasa whatsapp */
   'movile-wpp-extract-messages-success',
   'movile-wpp-send-messages-success',
