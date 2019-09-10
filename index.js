@@ -81,6 +81,7 @@ const triggers = [
   'movile-wpp-extract-messages-success',
   'movile-wpp-send-messages-success',
   'movile-wpp-rules-parameters-success',
-  'movile-wpp-rules-actions-success'
+  'movile-wpp-rules-actions-success',
+  'movile-wpp-rules-zendesk-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
