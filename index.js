@@ -83,5 +83,9 @@ const triggers = [
   'movile-wpp-rules-parameters-success',
   'movile-wpp-rules-actions-success',
   'movile-wpp-rules-zendesk-success'
+
+  /**vitreo poc */
+  'vitreo-handle-df-actions-success',
+  'vitreo-handle-df-parameters-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
