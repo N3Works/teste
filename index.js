@@ -82,6 +82,7 @@ const triggers = [
   'movile-wpp-send-messages-success',
   'movile-wpp-rules-parameters-success',
   'movile-wpp-rules-actions-success',
+  'movile-wpp-rules-zendesk-success'
 
   /**vitreo poc */
   'vitreo-handle-df-actions-success',
