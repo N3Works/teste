@@ -77,15 +77,20 @@ const triggers = [
   'cd-handle-df-actions-success',
   'cd-handle-df-parameters-success',
   'cd-handle-df-actions-chargeback',
+  'cd-handle-zendesk-update-success',
   /** serasa whatsapp */
   'movile-wpp-extract-messages-success',
   'movile-wpp-send-messages-success',
   'movile-wpp-rules-parameters-success',
   'movile-wpp-rules-actions-success',
-  'movile-wpp-rules-zendesk-success'
+  'movile-wpp-rules-zendesk-success',
 
   /**vitreo poc */
   'vitreo-handle-df-actions-success',
-  'vitreo-handle-df-parameters-success'
+  'vitreo-handle-df-parameters-success',
+
+  /** naturgy poc */
+  'naturgy-handle-df-actions-success',
+  'naturgy-handle-df-parameters-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
