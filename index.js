@@ -78,6 +78,7 @@ const triggers = [
   'cd-handle-df-parameters-success',
   'cd-handle-df-actions-chargeback',
   'cd-handle-zendesk-update-success',
+  'serasa-cd-wpp-actions-success',
   /** serasa whatsapp */
   'movile-wpp-extract-messages-success',
   'movile-wpp-send-messages-success',
