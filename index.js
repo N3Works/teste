@@ -92,6 +92,11 @@ const triggers = [
 
   /** naturgy poc */
   'naturgy-handle-df-actions-success',
-  'naturgy-handle-df-parameters-success'
+  'naturgy-handle-df-parameters-success',
+
+  
+  /** clear poc */
+  'clear-messenger-actions-success',
+  'clear-messenger-parameters-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
