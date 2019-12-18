@@ -97,6 +97,9 @@ const triggers = [
   
   /** clear poc */
   'clear-messenger-actions-success',
-  'clear-messenger-parameters-success'
+  'clear-messenger-parameters-success',
+
+  /**serasa reclame aqui */
+  'reclame-aqui-new-ticket-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
