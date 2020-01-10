@@ -96,8 +96,10 @@ const triggers = [
 
   
   /** clear poc */
+  'clear-messenger-verify-secondary-success',
   'clear-messenger-actions-success',
   'clear-messenger-parameters-success',
+
 
   /**serasa reclame aqui */
   'reclame-aqui-new-ticket-success'
