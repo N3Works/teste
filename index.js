@@ -67,6 +67,7 @@ const triggers = [
   'serasa-get-context-success',
 
   /** serasa Messenger */
+  'serasa-messenger-verify-secondary-success',
   'serasa-messenger-parameters-success',
   'serasa-messenger-actions-success',
   'zendesk-create-ticket-success',
