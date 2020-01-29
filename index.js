@@ -101,7 +101,7 @@ const triggers = [
   'serasa-cd-wpp-webhook-success',
   'serasa-cd-wpp-parameters-success',
   'serasa-cd-wpp-actions-success',
-  'serasa-cd-wpp-zendesk-update-success'
+  'serasa-cd-wpp-zendesk-update-success',
   
   /** clear poc */
   'clear-messenger-verify-secondary-success',
