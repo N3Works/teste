@@ -96,6 +96,7 @@ const triggers = [
 
   /** serasa certificado digital email */
   'serasa-cd-email-rules-success',
+  'serasa-cd-email-comment-success',
 
   /** serasa certificado digital whatsapp webhook */
   'serasa-cd-wpp-webhook-success',
