@@ -1,90 +1,69 @@
 'use strict';
 
 const functions = require('firebase-functions');
-const { PubSub } = require('@google-cloud/pubsub');
-const pubsub = new PubSub();
+const admin = require('firebase-admin');
+
+const { getTrigger, getFailTopic, publishEvent } = require('./utils');
+
+if (!process.env.FIREBASE_CONFIG) {
+  admin.initializeApp({
+    databaseURL: 'https://oraculo-zendesk.firebaseio.com/',
+    projectId: 'oraculo-zendesk'
+  });
+} else admin.initializeApp();
+
+var database = admin.firestore();
 
 /**
- * @name triggerToListnerName
- * @description Method used to transform a trigger into a camel case listener name
- * @param {string} trigger The trigger to be transformed (e.g.: 'zendesk-search-success')
- * @returns {string} The listener name (e.g.: 'listenerZendeskSearchSuccess')
+ * @name slsFirebaseNodejs
+ * @description Method used to create a function http on server
+ * @param {Function} req request to server
+ * @param {Function} res response to users
  */
-const triggerToListnerName = trigger => {
-  let parts = trigger.split('-');
-  return parts.reduce((start, p) => {
-    return `${start}${p.charAt(0).toUpperCase()}${p.slice(1)}`;
-  }, 'listener');
-};
+exports.slsFirebaseNodejs = functions.https.onRequest(async (req, res) => {
+  try {
+    let data;
+      switch (req.method) {
+          case 'GET':
+              res.status(200).send('GET').end();
+              break;
+          case 'POST':
+              data = req.body;
+              res.status(200).send('EVENT_RECIEVED').json().end();
+              break;
+          default:
+              res.sendStatus(405).end();
+              break;
+      }
+  } catch (error) {
+      if (error.code) res.status(error.code);
+      res.send(error.message).end();
+  }
+});
+
 
 /**
- * @name registryListener
- * @description Method used to registry listeners functions for given triggers
- * @param {string} trigger
+ * @name registryFunction
+ * @description Method used to registry a new function to the current module
+ * @param {Object} setup Object with the informations to setup a new function
+ * @param {Object} setup.opperator Object reference for the module that holds the function handler (must inplement one method named handler)
+ * @param {string} setup.functionName String that represents the function name to be registry at Firebase
+ * @param {string} setup.trigger String that holds the function trigger name
  */
-const registryListener = trigger => {
-  exports[triggerToListnerName(trigger)] = functions.pubsub
-    .topic(trigger)
+const registryFunction = ({ opperator, functionName, trigger }) => {
+  exports[functionName] = functions.pubsub
+    .topic(getTrigger(trigger))
     .onPublish(async event => {
       try {
-        const data = event.json.data;
-        const config = event.json.config;
-        const next = config.pipeline[data.origin][trigger];
-        if (next) await pubsub.topic(next).publishJSON(event.json);
-        else Promise.resolve();
-      } catch(error) {
+        return await opperator.handler({
+          config: event.json.config,
+          data: event.json.data,
+          database: admin.database()
+        });
+      } catch (error) {
         console.error(error);
+        event.json.error = error;
+        await publishEvent(event.json, getFailTopic(trigger));
       }
     });
 };
-
-/** setup */
-const triggers = [
-  'zendesk-search-success',
-  'zendesk-get-ticket-comments-success',
-  'zendesk-update-ticket-success',
-  'zendesk-webhook-success',
-  'df-process-text-success',
-  'messenger-send-message-success',
-  'messenger-extract-messages-success',
-  'webui-read-message-success',
-  'webui-format-outgoing-message-success',
-
-  /** serasa MPME */
-  'serasa-mpme-format-ticket-comment-success',
-  'serasa-mpme-format-ticket-tags-success',
-  'mpme-handle-df-actions-success',
-  'mpme-handle-df-actions-transfer',
-  'mpme-handle-df-parameters-success',
-  'mpme-handle-df-parameters-followup',
-  'webui-incoming-success',
-  'webui-outgoing-success',
-
-  /** serasa Email */
-  'serasa-email-rules-success',
-  'serasa-email-rules-paidnotupdate-success',
-  'serasa-get-ticket-success',
-  'serasa-get-context-success',
-
-  /** serasa Messenger */
-  'serasa-messenger-parameters-success',
-  'serasa-messenger-actions-success',
-  'zendesk-create-ticket-success',
-  'zendesk-create-user-success',
-  'bigquery-save-activity-success',
-
-  /** serasa certificado digital */
-  'cd-handle-df-actions-success',
-  'cd-handle-df-parameters-success',
-  /** serasa whatsapp */
-  'movile-wpp-extract-messages-success',
-  'movile-wpp-send-messages-success',
-  'movile-wpp-rules-parameters-success',
-  'movile-wpp-rules-actions-success',
-
-  /** Whatsapp */
-  'whatsapp-send-message-success',
-  'whatsapp-extract-messages-success',
-  'whatsapp-df-parameters-success'
-];
-triggers.forEach(trigger => registryListener(trigger));

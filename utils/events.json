@@ -1,0 +1,7 @@
+{
+  "sls-firebase-nodejs": {
+    "trigger": "sls-firebase-nodejs",
+    "success": "sls-firebase-nodejs-success",
+    "fails": "sls-firebase-nodejs-fails"
+  }
+}
