@@ -111,6 +111,10 @@ const triggers = [
 
 
   /**serasa reclame aqui */
-  'reclame-aqui-new-ticket-success'
+  'reclame-aqui-new-ticket-success',
+
+  /** firebase realtime */
+  'update-firebase-realtime-success',
+  'extract-firebase-realtime-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
