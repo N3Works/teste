@@ -73,6 +73,7 @@ const triggers = [
   'zendesk-create-ticket-success',
   'zendesk-create-user-success',
   'bigquery-save-activity-success',
+  'serasa-fb-rules-zendesk-success',
 
   /** serasa certificado digital */
   'cd-handle-df-actions-success',
