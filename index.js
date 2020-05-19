@@ -109,6 +109,7 @@ const triggers = [
   'clear-messenger-verify-secondary-success',
   'clear-messenger-actions-success',
   'clear-messenger-parameters-success',
+  'clear-messenger-stilingue-success',
 
 
   /**serasa reclame aqui */
