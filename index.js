@@ -109,7 +109,12 @@ const triggers = [
   'clear-messenger-verify-secondary-success',
   'clear-messenger-actions-success',
   'clear-messenger-parameters-success',
+  
+
+
+  /** stilingue integration */  
   'sls-stilingue-register-message-success',
+  'stilingue-register-user-message-success',
 
 
   /**serasa reclame aqui */
