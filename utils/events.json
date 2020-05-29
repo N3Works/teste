@@ -1,7 +1,7 @@
 {
-  "sls-firebase-nodejs": {
-    "trigger": "sls-firebase-nodejs",
-    "success": "sls-firebase-nodejs-success",
-    "fails": "sls-firebase-nodejs-fails"
+  "example-pubsub": {
+    "trigger": "example-pubsub",
+    "success": "example-pubsub-success",
+    "fails": "example-pubsub-fails"
   }
 }

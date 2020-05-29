@@ -3,6 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const { PubSub } = require("@google-cloud/pubsub");
+
 const pubsub = new PubSub();
 
 /**

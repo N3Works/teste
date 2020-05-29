@@ -1,18 +1,18 @@
-'use strict';
+"use strict";
 
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
-
-const { getTrigger, getFailTopic, publishEvent } = require('./utils');
+const functions = require("firebase-functions");
+const admin = require("firebase-admin");
+const example = require("./example/example");
+const { getTrigger, getFailTopic, publishEvent } = require("./utils");
 
 if (!process.env.FIREBASE_CONFIG) {
   admin.initializeApp({
-    databaseURL: 'https://oraculo-zendesk.firebaseio.com/',
-    projectId: 'oraculo-zendesk'
+    databaseURL: "https://oraculo-zendesk.firebaseio.com/",
+    projectId: "oraculo-zendesk"
   });
 } else admin.initializeApp();
 
-var database = admin.firestore();
+const database = admin.firestore();
 
 /**
  * @name slsFirebaseNodejs
@@ -23,24 +23,31 @@ var database = admin.firestore();
 exports.slsFirebaseNodejs = functions.https.onRequest(async (req, res) => {
   try {
     let data;
-      switch (req.method) {
-          case 'GET':
-              res.status(200).send('GET').end();
-              break;
-          case 'POST':
-              data = req.body;
-              res.status(200).send('EVENT_RECIEVED').json().end();
-              break;
-          default:
-              res.sendStatus(405).end();
-              break;
-      }
+    switch (req.method) {
+      case "GET":
+        res
+          .status(200)
+          .send("GET")
+          .end();
+        break;
+      case "POST":
+        data = req.body;
+        const response = example.handler({ data, database });
+        res
+          .status(200)
+          .send(response)
+          .json()
+          .end();
+        break;
+      default:
+        res.sendStatus(405).end();
+        break;
+    }
   } catch (error) {
-      if (error.code) res.status(error.code);
-      res.send(error.message).end();
+    if (error.code) res.status(error.code);
+    res.send(error.message).end();
   }
 });
-
 
 /**
  * @name registryFunction
@@ -67,3 +74,11 @@ const registryFunction = ({ opperator, functionName, trigger }) => {
       }
     });
 };
+
+const examplePubsub = require("./example/example-pubsub");
+
+registryFunction({
+  opperator: examplePubsub,
+  functionName: "examplePubsub",
+  trigger: "example-pubsub"
+});

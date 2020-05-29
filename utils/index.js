@@ -1,8 +1,6 @@
-'use strict'
-
-const FirestoreApi = require('./firestore');
+"use strict";
 
 module.exports = {
-    FirestoreApi,
-    ...require('./events')
+  ...require("./firestore"),
+  ...require("./events")
 };
