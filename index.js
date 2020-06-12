@@ -115,6 +115,7 @@ const triggers = [
   /** stilingue integration */  
   'sls-stilingue-register-message-success',
   'stilingue-register-user-message-success',
+  'stilingue-register-bot-message-success',
 
 
   /**serasa reclame aqui */
