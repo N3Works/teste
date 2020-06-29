@@ -39,6 +39,10 @@ This boilerplate contains the base to create a function serverless. All code sho
 - **README.md** - Documentation of project.
 - **SUMMARY.md** -  Documentation of project.
 
+## Configuration project
+Inside of file index.js exists three kinds of functions what can be used.If you
+ use the configuration of *function HTTP* comment of /** EXEMPLE OF A API REST */ to above, that will go helper to not have a conflict.
+
 ## Deploy of application in the environment of developer
 Before verify if you have configured the firebase in your environment.
 
