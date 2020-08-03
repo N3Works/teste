@@ -123,6 +123,13 @@ const triggers = [
 
   /** firebase realtime */
   'update-firebase-realtime-success',
-  'extract-firebase-realtime-success'
+  'extract-firebase-realtime-success',
+
+  /** salesforce integration */
+  'salesforce-post-success',
+  'salesforce-webhook-success'
+
+
+
 ];
 triggers.forEach(trigger => registryListener(trigger));
