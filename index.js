@@ -127,9 +127,9 @@ const triggers = [
 
   /** salesforce integration */
   'salesforce-post-success',
-  'salesforce-webhook-success'
-
-
-
+  'salesforce-webhook-success',
+  
+  /** email site */
+  'user-validation-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
