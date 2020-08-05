@@ -133,8 +133,8 @@ const triggers = [
   'user-validation-success',
 
   /** rico serverless */
-  'rico-df-parameters',
-  'rico-df-actions'
+  'rico-df-parameters-success',
+  'rico-df-actions-success'
 
 ];
 triggers.forEach(trigger => registryListener(trigger));
