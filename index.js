@@ -130,6 +130,11 @@ const triggers = [
   'salesforce-webhook-success',
   
   /** email site */
-  'user-validation-success'
+  'user-validation-success',
+
+  /** rico serverless */
+  'rico-df-parameters',
+  'rico-df-actions'
+
 ];
 triggers.forEach(trigger => registryListener(trigger));
