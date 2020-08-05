@@ -130,6 +130,7 @@ const triggers = [
   'salesforce-webhook-success',
   
   /** email site */
-  'user-validation-success'
+  'user-validation-success',
+  'check-not-validated-success'
 ];
 triggers.forEach(trigger => registryListener(trigger));
