@@ -131,11 +131,13 @@ const triggers = [
   
   /** email site */
   'user-validation-success',
-
+  'check-not-validated-success',
+  
   /** rico serverless */
   'rico-df-parameters-success',
   'rico-df-actions-success',
   'rico-verify-secondary-success'
+
 
 ];
 triggers.forEach(trigger => registryListener(trigger));
