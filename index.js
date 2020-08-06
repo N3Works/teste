@@ -134,7 +134,8 @@ const triggers = [
 
   /** rico serverless */
   'rico-df-parameters-success',
-  'rico-df-actions-success'
+  'rico-df-actions-success',
+  'rico-verify-secondary-success'
 
 ];
 triggers.forEach(trigger => registryListener(trigger));
