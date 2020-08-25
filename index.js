@@ -128,6 +128,7 @@ const triggers = [
   /** salesforce integration */
   'salesforce-post-success',
   'salesforce-webhook-success',
+  'salesforce-idle-notification-success',
   
   /** email site */
   'user-validation-success',
